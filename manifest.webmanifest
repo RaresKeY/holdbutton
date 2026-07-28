@@ -1,0 +1,16 @@
+{
+  "name": "Hold the Line",
+  "short_name": "Hold",
+  "description": "A one-button, virtual-credit stochastic-system experiment.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#090b10",
+  "theme_color": "#090b10",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

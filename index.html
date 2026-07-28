@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Hold the Line is a one-button, virtual-credit experiment in readable stochastic tension."
+    >
+    <meta name="theme-color" content="#090b10">
+    <meta property="og:title" content="Hold the Line">
+    <meta
+      property="og:description"
+      content="Read the signal. Hold for more. Release before the circuit breaks."
+    >
+    <meta property="og:type" content="website">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+    <title>Hold the Line — A one-button stochastic experiment</title>
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Hold the Line home">
+        <span class="brand-mark" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </span>
+        <span>Hold the Line</span>
+      </a>
+      <span class="credit-badge">Virtual credits · no cash value</span>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Fun Proxy · Experiment 01</p>
+          <h1 id="page-title">Hold for more.<br><em>Leave before it breaks.</em></h1>
+          <p class="lede">
+            One input, one rising reward, one imperfect but honest warning
+            signal. How long do you trust yourself to stay?
+          </p>
+        </div>
+        <div class="rule-strip" aria-label="Game rules">
+          <span><b>01</b> Choose a stake</span>
+          <span><b>02</b> Press and hold</span>
+          <span><b>03</b> Release to bank</span>
+        </div>
+      </section>
+
+      <section class="game-shell" aria-labelledby="game-title">
+        <h2 id="game-title" class="visually-hidden">Hold the Line game</h2>
+
+        <aside class="control-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="panel-label">Wallet</span>
+              <strong class="wallet-value">
+                <span id="credits">1,000.00</span>
+                <small>CR</small>
+              </strong>
+            </div>
+            <button id="reset-wallet" class="text-button" type="button">
+              Reset
+            </button>
+          </div>
+
+          <div class="stake-control">
+            <div class="stake-heading">
+              <label for="stake">Stake</label>
+              <output id="stake-output" for="stake">25 CR</output>
+            </div>
+            <input
+              id="stake"
+              type="range"
+              min="10"
+              max="250"
+              step="5"
+              value="25"
+            >
+            <div class="stake-bounds" aria-hidden="true">
+              <span>10</span>
+              <span>250</span>
+            </div>
+            <div class="stake-presets" aria-label="Stake presets">
+              <button type="button" data-stake="10">10</button>
+              <button type="button" data-stake="25">25</button>
+              <button type="button" data-stake="50">50</button>
+              <button type="button" data-stake="100">100</button>
+            </div>
+          </div>
+
+          <dl class="round-data">
+            <div>
+              <dt>Current return</dt>
+              <dd id="potential-return">25.00 CR</dd>
+            </div>
+            <div>
+              <dt>Tick risk</dt>
+              <dd id="tick-risk">0.00%</dd>
+            </div>
+            <div>
+              <dt>Hard cap</dt>
+              <dd>8.00×</dd>
+            </div>
+          </dl>
+
+          <div class="principle">
+            <span class="principle-icon" aria-hidden="true">≈</span>
+            <p>
+              The warning is noisy, not fake. Brighter pressure generally means
+              greater immediate risk.
+            </p>
+          </div>
+        </aside>
+
+        <div class="reactor-panel" id="reactor-panel">
+          <div class="top-readout">
+            <span id="round-state" class="state-pill" data-state="idle">
+              System ready
+            </span>
+            <span id="elapsed">00.0s</span>
+          </div>
+
+          <div class="reactor" id="reactor" aria-hidden="true">
+            <div class="reactor-halo"></div>
+            <div class="reactor-orbit orbit-outer"></div>
+            <div class="reactor-orbit orbit-inner"></div>
+            <div class="reactor-core">
+              <div class="core-glare"></div>
+            </div>
+            <div class="spark spark-one"></div>
+            <div class="spark spark-two"></div>
+            <div class="spark spark-three"></div>
+          </div>
+
+          <div class="multiplier-block" aria-live="polite">
+            <span class="readout-label">Live multiplier</span>
+            <strong id="multiplier">1.00<span>×</span></strong>
+            <span id="return-readout">25.00 CR on release</span>
+          </div>
+
+          <div class="signal" aria-label="Circuit warning signal">
+            <div class="signal-heading">
+              <span>Pressure signal</span>
+              <strong id="signal-label">Clear</strong>
+            </div>
+            <div
+              id="signal-track"
+              class="signal-track"
+              role="meter"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="6"
+              aria-valuetext="Clear"
+            >
+              <div id="signal-fill" class="signal-fill"></div>
+              <i></i><i></i><i></i><i></i><i></i>
+            </div>
+          </div>
+
+          <button
+            id="hold-button"
+            class="hold-button"
+            type="button"
+            aria-describedby="game-message"
+          >
+            <span class="button-aura" aria-hidden="true"></span>
+            <span class="button-face">
+              <strong id="hold-label">Press &amp; hold</strong>
+              <small id="hold-hint">Release to bank</small>
+            </span>
+          </button>
+
+          <p id="game-message" class="game-message" aria-live="assertive">
+            Choose a stake, then hold the control.
+          </p>
+          <p class="keyboard-hint">
+            Pointer, touch, or <kbd>Space</kbd>
+          </p>
+        </div>
+
+        <aside class="history-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="panel-label">Session</span>
+              <strong>Recent runs</strong>
+            </div>
+            <span id="round-count" class="round-count">0 rounds</span>
+          </div>
+          <ol id="history" class="history-list">
+            <li class="empty-history">
+              Your last five outcomes will appear here.
+            </li>
+          </ol>
+          <div class="session-note">
+            <span aria-hidden="true">◇</span>
+            <p>
+              This prototype stores only virtual credits in this browser.
+              Refreshing does not reroll an active round—it ends it.
+            </p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="model-notes" aria-labelledby="model-title">
+        <div>
+          <p class="eyebrow">What is being tested</p>
+          <h2 id="model-title">Tension you can learn,<br>not certainty you can solve.</h2>
+        </div>
+        <div class="note-grid">
+          <article>
+            <span>01</span>
+            <h3>Pre-sampled fate</h3>
+            <p>
+              Each run receives one hidden bust budget. Fixed simulation ticks
+              consume it, keeping outcomes reproducible and frame-rate neutral.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Readable pressure</h3>
+            <p>
+              The visible signal contains error, but remains correlated with
+              the actual hazard. Attention should improve decisions over time.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Bounded stakes</h3>
+            <p>
+              Stakes use fictional credits, payout begins at 1×, and reaching
+              the 8× ceiling automatically banks rather than forcing a loss.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Hold the Line <span>·</span> A minimal stochastic-system prototype</p>
+      <p>Virtual credits only. Not gambling and not redeemable.</p>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
