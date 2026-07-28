@@ -55,6 +55,7 @@ class StaticSiteTests(unittest.TestCase):
 
     def test_interaction_hooks_exist(self) -> None:
         required = {
+            "audio-toggle",
             "credits",
             "game-message",
             "hold-button",

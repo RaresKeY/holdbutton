@@ -1,10 +1,13 @@
+import { ProceduralAudio } from "./audio.js";
 import { DEFAULT_CONFIG, HoldRound } from "./engine.js";
 
 const STORAGE_KEY = "hold-the-line-virtual-credits-v1";
+const AUDIO_STORAGE_KEY = "hold-the-line-generated-audio-v1";
 const UINT32_RANGE = 4_294_967_296;
 const root = document.documentElement;
 
 const elements = {
+  audioToggle: document.querySelector("#audio-toggle"),
   credits: document.querySelector("#credits"),
   elapsed: document.querySelector("#elapsed"),
   gameMessage: document.querySelector("#game-message"),
@@ -25,6 +28,7 @@ const elements = {
 };
 
 let credits = loadCredits();
+let audioEnabled = loadAudioEnabled();
 let selectedStake = Number(elements.stake.value);
 let activeRound = null;
 let activeState = null;
@@ -32,6 +36,7 @@ let animationFrame = 0;
 let lastFrameTime = 0;
 let tickAccumulator = 0;
 let spaceHeld = false;
+const gameAudio = new ProceduralAudio(audioEnabled);
 
 function loadCredits() {
   try {
@@ -54,6 +59,35 @@ function saveCredits() {
   } catch {
     // Persistence is optional; gameplay remains available for this page load.
   }
+}
+
+function loadAudioEnabled() {
+  try {
+    return localStorage.getItem(AUDIO_STORAGE_KEY) !== "muted";
+  } catch {
+    return true;
+  }
+}
+
+function saveAudioEnabled() {
+  try {
+    localStorage.setItem(
+      AUDIO_STORAGE_KEY,
+      audioEnabled ? "enabled" : "muted",
+    );
+  } catch {
+    // Audio preference remains valid for this page load.
+  }
+}
+
+function renderAudioControl() {
+  elements.audioToggle.classList.toggle("muted", !audioEnabled);
+  elements.audioToggle.setAttribute("aria-pressed", String(audioEnabled));
+  const label = audioEnabled
+    ? "Mute generated sound"
+    : "Enable generated sound";
+  elements.audioToggle.setAttribute("aria-label", label);
+  elements.audioToggle.title = label;
 }
 
 function formatCredits(value) {
@@ -179,6 +213,9 @@ function renderState(state) {
     String(Math.round(signal * 100)),
   );
   elements.signalTrack.setAttribute("aria-valuetext", signalText);
+  if (state?.status === "active") {
+    gameAudio.update(state);
+  }
 }
 
 function updateWallet() {
@@ -219,6 +256,9 @@ function beginHold() {
     bustUniform: entropy.bustUniform,
   });
   activeState = activeRound.snapshot();
+  void gameAudio.start(activeState).catch(() => {
+    // Gameplay remains available if the browser refuses audio initialization.
+  });
 
   setControlsLocked(true);
   elements.holdButton.classList.remove("busted");
@@ -284,6 +324,11 @@ function finishRound(state, reason = "result") {
   elements.holdLabel.textContent = "Hold again";
   elements.holdHint.textContent = "Release to bank";
   setControlsLocked(false);
+  if (reason === "visibility") {
+    gameAudio.stop();
+  } else {
+    gameAudio.finish(state.status, state);
+  }
 
   if (state.status === "busted") {
     elements.holdButton.classList.add("busted");
@@ -320,6 +365,27 @@ function finishRound(state, reason = "result") {
 }
 
 elements.stake.addEventListener("input", updateStake);
+
+elements.audioToggle.addEventListener("click", () => {
+  audioEnabled = !audioEnabled;
+  saveAudioEnabled();
+  renderAudioControl();
+  void gameAudio.setEnabled(audioEnabled).then(() => {
+    if (
+      audioEnabled &&
+      activeRound !== null &&
+      activeState?.status === "active"
+    ) {
+      void gameAudio.start(activeState).catch(() => {
+        // The visual game remains the fallback when Web Audio is unavailable.
+      });
+    }
+  }).catch(() => {
+    audioEnabled = false;
+    saveAudioEnabled();
+    renderAudioControl();
+  });
+});
 
 for (const button of elements.stakePresets) {
   button.addEventListener("click", () => {
@@ -392,3 +458,4 @@ window.addEventListener("pagehide", () => {
 
 updateWallet();
 renderState(null);
+renderAudioControl();

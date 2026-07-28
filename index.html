@@ -88,7 +88,21 @@
             <span id="round-state" class="state-pill" data-state="idle">
               System ready
             </span>
-            <span id="elapsed">00.0s</span>
+            <div class="readout-tools">
+              <span id="elapsed">00.0s</span>
+              <button
+                id="audio-toggle"
+                class="audio-toggle"
+                type="button"
+                aria-pressed="true"
+                aria-label="Mute generated sound"
+                title="Mute generated sound"
+              >
+                <span class="audio-bars" aria-hidden="true">
+                  <i></i><i></i><i></i>
+                </span>
+              </button>
+            </div>
           </div>
 
           <div class="reactor" id="reactor" aria-hidden="true">

@@ -10,7 +10,7 @@ fictional browser-local credits. It is separate from the general-purpose
 
 | Spec | Owning sources | Scope | Read when |
 |---|---|---|---|
-| [`game.md`](game.md) | `index.html`, `styles.css`, `script.js`, `engine.js`, `tests/` | Game behavior, stochastic and payout equations, warning-signal integrity, static hosting, and verification | Changing mechanics, probabilities, wallet behavior, presentation contracts, input, or deployment |
+| [`game.md`](game.md) | `index.html`, `styles.css`, `script.js`, `audio.js`, `engine.js`, `tests/` | Game behavior, stochastic and payout equations, warning and audio integrity, static hosting, and verification | Changing mechanics, probabilities, wallet behavior, presentation, generated audio, input, or deployment |
 
 ## Maintenance
 

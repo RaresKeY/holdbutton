@@ -5,7 +5,8 @@ browser-local credits.
 
 Choose a stake, press and hold while the multiplier and pressure rise, then
 release to bank before the circuit busts. The visible warning is noisy but
-correlated with the actual tick hazard.
+correlated with the actual tick hazard. A generated electrical soundscape
+tracks the same state without loading prerecorded audio.
 
 The deployed experience is deliberately game-only: one responsive viewport,
 no landing-page copy, no history panel, and no scrolling.
@@ -27,8 +28,8 @@ Open `http://localhost:8000`.
 No JavaScript packages or remote modules are used.
 
 ```bash
-deno check engine.js script.js
-deno test tests/engine_test.js
+deno check audio.js engine.js script.js
+deno test tests/audio_test.js tests/engine_test.js
 python -m unittest discover -s tests -p 'test_*.py' -v
 ```
 

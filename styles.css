@@ -396,6 +396,79 @@ input:disabled {
   text-transform: uppercase;
 }
 
+.readout-tools {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.audio-toggle {
+  position: relative;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--warm);
+  background: rgba(255, 255, 255, 0.025);
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+.audio-toggle:hover {
+  border-color: rgba(255, 184, 77, 0.45);
+  background: rgba(255, 184, 77, 0.07);
+}
+
+.audio-toggle::after {
+  position: absolute;
+  width: 15px;
+  height: 1px;
+  border-radius: 2px;
+  background: currentColor;
+  content: "";
+  opacity: 0;
+  transform: rotate(-45deg) scaleX(0.4);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.audio-toggle.muted {
+  color: var(--dim);
+}
+
+.audio-toggle.muted::after {
+  opacity: 1;
+  transform: rotate(-45deg) scaleX(1);
+}
+
+.audio-bars {
+  display: flex;
+  gap: 2px;
+  align-items: end;
+  height: 12px;
+}
+
+.audio-bars i {
+  display: block;
+  width: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.audio-bars i:nth-child(1) {
+  height: 5px;
+}
+
+.audio-bars i:nth-child(2) {
+  height: 11px;
+}
+
+.audio-bars i:nth-child(3) {
+  height: 8px;
+}
+
 .state-pill[data-state="active"] {
   border-color: rgba(255, 184, 77, 0.35);
   color: var(--warm);

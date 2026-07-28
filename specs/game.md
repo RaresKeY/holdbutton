@@ -2,9 +2,9 @@
 
 ## Status
 
-The initial playable static-site prototype is implemented by `index.html`,
-`styles.css`, `script.js`, and `engine.js`. It uses no third-party runtime
-dependencies and no server.
+The playable static-site prototype is implemented by `index.html`,
+`styles.css`, `script.js`, `audio.js`, and `engine.js`. It uses no third-party
+runtime dependencies and no server.
 
 ## Behavior
 
@@ -21,7 +21,7 @@ dependencies and no server.
 - Losing page visibility banks an active round. This avoids hidden progression
   while browser animation is throttled.
 - Pointer, touch, and Space-key input are supported.
-- Only wallet value persists.
+- Wallet value and the generated-audio preference persist.
 - All displayed value is fictional, has no cash value, and is not redeemable.
 
 ## Presentation Contract
@@ -29,8 +29,8 @@ dependencies and no server.
 - The site is a single game surface sized to the current viewport. The document
   does not scroll during normal desktop or mobile play.
 - Only live play controls and feedback are visible: wallet, stake, settled
-  return, tick risk, cap, reactor, multiplier, warning signal, hold control, and
-  result message.
+  return, tick risk, cap, reactor, multiplier, warning signal, audio toggle,
+  hold control, and result message.
 - Marketing copy, explanatory sections, recent-round history, and a footer are
   intentionally absent. Mathematical and safety detail lives in this spec and
   the repository README instead of competing with the interaction.
@@ -86,11 +86,27 @@ to the engine state.
 The signal is not a promise that a specific tick is safe. Even a low-pressure
 tick retains the declared base hazard.
 
+## Audio Contract
+
+- Audio is generated locally with oscillators, filters, gain envelopes, and a
+  short synthesized noise burst. No prerecorded or remote audio is loaded.
+- Sound begins only in response to a player gesture, following browser audio
+  policy. The page is silent before interaction.
+- During a hold, actual heat raises the drone pitch and gain while the warning
+  signal raises filter brightness, pulse speed, and pulse depth. Multiplier
+  contributes a smaller pitch lift.
+- Cash-out, bust, and maximum-cap outcomes have distinct generated cues.
+- Losing page visibility stops audio while the game banks the active round.
+- A compact toggle enables or mutes all generated audio. Its preference
+  persists locally and defaults to enabled.
+- Audio reinforces the same imperfect pressure information as the visual
+  warning. It must not imply that any individual tick is guaranteed safe.
+
 ## Technical and Safety Boundaries
 
 - The repository root is a build-free static-site source.
-- No remote scripts, analytics, network calls, or runtime dependencies are
-  used.
+- No remote scripts, audio assets, analytics, network calls, or runtime
+  dependencies are used.
 - Round entropy comes from the browser Web Crypto API. Seeded noise makes the
   heat path reproducible inside one round.
 - Random state, hidden budget, wallet state, and outcomes are client-controlled
@@ -104,13 +120,14 @@ tick retains the declared base hazard.
 Run:
 
 ```bash
-deno check engine.js script.js
-deno test tests/engine_test.js
+deno check audio.js engine.js script.js
+deno test tests/audio_test.js tests/engine_test.js
 python -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-The Deno tests cover deterministic seeded behavior, inverse-exponential bust
-sampling, survival/multiplier correspondence, busting, cash-out, the hard cap,
-and configuration validation. The Python site test checks local asset
-references, required interaction hooks, and the web manifest. Desktop and
-mobile browser renders verify the single-viewport presentation.
+The Deno tests cover audio-parameter mapping, deterministic seeded behavior,
+inverse-exponential bust sampling, survival/multiplier correspondence,
+busting, cash-out, the hard cap, and configuration validation. The Python site
+test checks local asset references, required interaction hooks, and the web
+manifest. Desktop and mobile browser renders verify the single-viewport
+presentation.
