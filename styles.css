@@ -386,15 +386,18 @@ input:disabled {
 }
 
 .history-outcome {
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 22px;
   height: 22px;
-  place-items: center;
   border-radius: 50%;
   color: var(--success);
   background: rgba(168, 247, 189, 0.08);
   font-size: 0.69rem;
   font-weight: 800;
+  line-height: 1;
+  text-align: center;
 }
 
 .history-outcome.loss {
