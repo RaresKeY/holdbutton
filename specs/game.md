@@ -38,6 +38,10 @@ runtime dependencies and no server.
 - On narrow viewports, the reactor remains above a compact wallet/stake panel.
   Secondary readouts collapse before the primary interaction does, and history
   becomes a three-result horizontal strip.
+- Actual heat drives both the overall reactor and central-core scale. Their
+  transitions deliberately interpolate across multiple 80 ms simulation ticks
+  so the circle reads as accumulating pressure rather than stepping with each
+  update. The core has the larger scale range and glow response.
 
 ## Random and Payout Contract
 
