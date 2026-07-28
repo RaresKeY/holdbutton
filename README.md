@@ -9,7 +9,8 @@ correlated with the actual tick hazard. A generated electrical soundscape
 tracks the same state without loading prerecorded audio.
 
 The deployed experience is deliberately game-only: one responsive viewport,
-no landing-page copy, no history panel, and no scrolling.
+compact score history inside the control panel, no landing-page copy, and no
+scrolling.
 
 ## Run locally
 

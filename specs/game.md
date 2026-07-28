@@ -21,7 +21,8 @@ runtime dependencies and no server.
 - Losing page visibility banks an active round. This avoids hidden progression
   while browser animation is throttled.
 - Pointer, touch, and Space-key input are supported.
-- Wallet value and the generated-audio preference persist.
+- Wallet value and the generated-audio preference persist. The five most recent
+  score outcomes are session-local and clearing the wallet clears this history.
 - All displayed value is fictional, has no cash value, and is not redeemable.
 
 ## Presentation Contract
@@ -30,12 +31,13 @@ runtime dependencies and no server.
   does not scroll during normal desktop or mobile play.
 - Only live play controls and feedback are visible: wallet, stake, settled
   return, tick risk, cap, reactor, multiplier, warning signal, audio toggle,
-  hold control, and result message.
-- Marketing copy, explanatory sections, recent-round history, and a footer are
-  intentionally absent. Mathematical and safety detail lives in this spec and
-  the repository README instead of competing with the interaction.
+  hold control, result message, and compact score history.
+- Marketing copy, explanatory sections, a separate history column, and a footer
+  are intentionally absent. Mathematical and safety detail lives in this spec
+  and the repository README instead of competing with the interaction.
 - On narrow viewports, the reactor remains above a compact wallet/stake panel.
-  Secondary readouts collapse before the primary interaction does.
+  Secondary readouts collapse before the primary interaction does, and history
+  becomes a three-result horizontal strip.
 
 ## Random and Payout Contract
 

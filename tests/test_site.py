@@ -58,6 +58,7 @@ class StaticSiteTests(unittest.TestCase):
             "audio-toggle",
             "credits",
             "game-message",
+            "history",
             "hold-button",
             "multiplier",
             "round-state",
