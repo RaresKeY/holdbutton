@@ -101,6 +101,9 @@ tick retains the declared base hazard.
 - During a hold, actual heat raises the drone pitch and gain while the warning
   signal raises filter brightness, pulse speed, and pulse depth. Multiplier
   contributes a smaller pitch lift.
+- Live parameter changes and very short releases preserve the instantaneous
+  automation value before rescheduling or fading, avoiding discontinuities
+  and loud clicks.
 - Cash-out, bust, and maximum-cap outcomes have distinct generated cues.
 - Losing page visibility stops audio while the game banks the active round.
 - A compact toggle enables or mutes all generated audio. Its preference

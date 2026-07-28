@@ -13,6 +13,19 @@ function finiteOr(value, fallback) {
   return Number.isFinite(value) ? value : fallback;
 }
 
+export function holdAudioParameter(parameter, time) {
+  const heldValue = parameter.value;
+  if (typeof parameter.cancelAndHoldAtTime === "function") {
+    parameter.cancelAndHoldAtTime(time);
+    return;
+  }
+
+  // Read before cancelling: cancelScheduledValues() may restore the value from
+  // before an active ramp, which creates an audible discontinuity.
+  parameter.cancelScheduledValues(time);
+  parameter.setValueAtTime(heldValue, time);
+}
+
 export function holdAudioParameters(state = {}) {
   const heat = clamp(finiteOr(state.heat, 0), 0, 1);
   const signal = clamp(finiteOr(state.warningSignal, heat), 0, 1);
@@ -30,7 +43,7 @@ export function holdAudioParameters(state = {}) {
 }
 
 function setSmooth(parameter, value, now, timeConstant = 0.055) {
-  parameter.cancelScheduledValues(now);
+  holdAudioParameter(parameter, now);
   parameter.setTargetAtTime(value, now, timeConstant);
 }
 
@@ -197,11 +210,7 @@ export class ProceduralAudio {
     const nodes = this.#roundNodes;
     this.#roundNodes = null;
     const now = this.#context.currentTime;
-    nodes.master.gain.cancelScheduledValues(now);
-    nodes.master.gain.setValueAtTime(
-      Math.max(nodes.master.gain.value, 0.0001),
-      now,
-    );
+    holdAudioParameter(nodes.master.gain, now);
     nodes.master.gain.exponentialRampToValueAtTime(
       0.0001,
       now + fadeSeconds,

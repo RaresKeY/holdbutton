@@ -1,10 +1,55 @@
-import { holdAudioParameters } from "../audio.js";
+import { holdAudioParameter, holdAudioParameters } from "../audio.js";
 
 function assert(condition, message = "assertion failed") {
   if (!condition) {
     throw new Error(message);
   }
 }
+
+Deno.test("audio automation holds the active value before rescheduling", () => {
+  const calls = [];
+  const parameter = {
+    value: 0.017,
+    cancelAndHoldAtTime(time) {
+      calls.push(["hold", time]);
+    },
+    cancelScheduledValues() {
+      throw new Error("native hold should be preferred");
+    },
+    setValueAtTime() {
+      throw new Error("native hold should not need a replacement value");
+    },
+  };
+
+  holdAudioParameter(parameter, 0.025);
+
+  assert(calls.length === 1);
+  assert(calls[0][0] === "hold");
+  assert(calls[0][1] === 0.025);
+});
+
+Deno.test("audio automation fallback captures value before cancellation", () => {
+  const calls = [];
+  const parameter = {
+    value: 0.017,
+    cancelScheduledValues(time) {
+      calls.push(["cancel", time]);
+      this.value = 0.0001;
+    },
+    setValueAtTime(value, time) {
+      calls.push(["set", value, time]);
+      this.value = value;
+    },
+  };
+
+  holdAudioParameter(parameter, 0.025);
+
+  assert(calls.length === 2);
+  assert(calls[0][0] === "cancel");
+  assert(calls[1][0] === "set");
+  assert(calls[1][1] === 0.017);
+  assert(parameter.value === 0.017);
+});
 
 Deno.test("hold audio parameters remain finite at malformed boundaries", () => {
   const parameters = holdAudioParameters({
