@@ -21,8 +21,21 @@ dependencies and no server.
 - Losing page visibility banks an active round. This avoids hidden progression
   while browser animation is throttled.
 - Pointer, touch, and Space-key input are supported.
-- Only wallet value persists. Recent-round history is session-local.
+- Only wallet value persists.
 - All displayed value is fictional, has no cash value, and is not redeemable.
+
+## Presentation Contract
+
+- The site is a single game surface sized to the current viewport. The document
+  does not scroll during normal desktop or mobile play.
+- Only live play controls and feedback are visible: wallet, stake, settled
+  return, tick risk, cap, reactor, multiplier, warning signal, hold control, and
+  result message.
+- Marketing copy, explanatory sections, recent-round history, and a footer are
+  intentionally absent. Mathematical and safety detail lives in this spec and
+  the repository README instead of competing with the interaction.
+- On narrow viewports, the reactor remains above a compact wallet/stake panel.
+  Secondary readouts collapse before the primary interaction does.
 
 ## Random and Payout Contract
 
@@ -99,4 +112,5 @@ python -m unittest discover -s tests -p 'test_*.py' -v
 The Deno tests cover deterministic seeded behavior, inverse-exponential bust
 sampling, survival/multiplier correspondence, busting, cash-out, the hard cap,
 and configuration validation. The Python site test checks local asset
-references, required interaction hooks, and the web manifest.
+references, required interaction hooks, and the web manifest. Desktop and
+mobile browser renders verify the single-viewport presentation.

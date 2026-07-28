@@ -7,6 +7,9 @@ Choose a stake, press and hold while the multiplier and pressure rise, then
 release to bank before the circuit busts. The visible warning is noisy but
 correlated with the actual tick hazard.
 
+The deployed experience is deliberately game-only: one responsive viewport,
+no landing-page copy, no history panel, and no scrolling.
+
 ## Run locally
 
 The browser source is already the deployable artifact. Serve the repository

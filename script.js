@@ -8,16 +8,13 @@ const elements = {
   credits: document.querySelector("#credits"),
   elapsed: document.querySelector("#elapsed"),
   gameMessage: document.querySelector("#game-message"),
-  history: document.querySelector("#history"),
   holdButton: document.querySelector("#hold-button"),
   holdHint: document.querySelector("#hold-hint"),
   holdLabel: document.querySelector("#hold-label"),
   multiplier: document.querySelector("#multiplier"),
   potentialReturn: document.querySelector("#potential-return"),
-  reactorPanel: document.querySelector("#reactor-panel"),
   resetWallet: document.querySelector("#reset-wallet"),
   returnReadout: document.querySelector("#return-readout"),
-  roundCount: document.querySelector("#round-count"),
   roundState: document.querySelector("#round-state"),
   signalLabel: document.querySelector("#signal-label"),
   signalTrack: document.querySelector("#signal-track"),
@@ -35,8 +32,6 @@ let animationFrame = 0;
 let lastFrameTime = 0;
 let tickAccumulator = 0;
 let spaceHeld = false;
-let history = [];
-let totalRounds = 0;
 
 function loadCredits() {
   try {
@@ -282,9 +277,6 @@ function finishRound(state, reason = "result") {
   cancelAnimationFrame(animationFrame);
   credits = Math.round((credits + state.payout) * 100) / 100;
   saveCredits();
-  totalRounds += 1;
-  history.unshift(state);
-  history = history.slice(0, 5);
 
   activeRound = null;
   activeState = state;
@@ -325,47 +317,6 @@ function finishRound(state, reason = "result") {
 
   renderState(state);
   updateWallet();
-  renderHistory();
-}
-
-function renderHistory() {
-  elements.roundCount.textContent = `${totalRounds} ${
-    totalRounds === 1 ? "round" : "rounds"
-  }`;
-  elements.history.replaceChildren();
-
-  if (history.length === 0) {
-    const empty = document.createElement("li");
-    empty.className = "empty-history";
-    empty.textContent = "Your last five outcomes will appear here.";
-    elements.history.append(empty);
-    return;
-  }
-
-  for (const state of history) {
-    const item = document.createElement("li");
-    const won = state.status !== "busted";
-    const delta = state.payout - state.stake;
-
-    const result = document.createElement("span");
-    result.className = `history-result${won ? "" : " loss"}`;
-    result.textContent = won ? "✓" : "×";
-
-    const main = document.createElement("span");
-    main.className = "history-main";
-    const multiplier = document.createElement("strong");
-    multiplier.textContent = `${state.multiplier.toFixed(2)}×`;
-    const stake = document.createElement("small");
-    stake.textContent = `${formatCredits(state.stake)} CR stake`;
-    main.append(multiplier, stake);
-
-    const change = document.createElement("span");
-    change.className = `history-delta${delta < 0 ? " loss" : ""}`;
-    change.textContent = `${delta >= 0 ? "+" : ""}${formatCredits(delta)}`;
-
-    item.append(result, main, change);
-    elements.history.append(item);
-  }
 }
 
 elements.stake.addEventListener("input", updateStake);
@@ -382,13 +333,10 @@ elements.resetWallet.addEventListener("click", () => {
     return;
   }
   credits = DEFAULT_CONFIG.startingCredits;
-  history = [];
-  totalRounds = 0;
   saveCredits();
   setRoundState("idle", "System ready");
   setMessage("Wallet reset. Choose a stake, then hold the control.");
   renderState(null);
-  renderHistory();
   updateWallet();
 });
 
@@ -444,4 +392,3 @@ window.addEventListener("pagehide", () => {
 
 updateWallet();
 renderState(null);
-renderHistory();

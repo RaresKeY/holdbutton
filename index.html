@@ -24,40 +24,14 @@
     <div class="ambient ambient-two" aria-hidden="true"></div>
     <div class="grain" aria-hidden="true"></div>
 
-    <header class="site-header">
-      <a class="brand" href="#top" aria-label="Hold the Line home">
-        <span class="brand-mark" aria-hidden="true">
-          <i></i><i></i><i></i>
-        </span>
-        <span>Hold the Line</span>
-      </a>
-      <span class="credit-badge">Virtual credits · no cash value</span>
-    </header>
-
-    <main id="top">
-      <section class="hero" aria-labelledby="page-title">
-        <div class="hero-copy">
-          <p class="eyebrow">Fun Proxy · Experiment 01</p>
-          <h1 id="page-title">Hold for more.<br><em>Leave before it breaks.</em></h1>
-          <p class="lede">
-            One input, one rising reward, one imperfect but honest warning
-            signal. How long do you trust yourself to stay?
-          </p>
-        </div>
-        <div class="rule-strip" aria-label="Game rules">
-          <span><b>01</b> Choose a stake</span>
-          <span><b>02</b> Press and hold</span>
-          <span><b>03</b> Release to bank</span>
-        </div>
-      </section>
-
+    <main id="top" class="app">
       <section class="game-shell" aria-labelledby="game-title">
-        <h2 id="game-title" class="visually-hidden">Hold the Line game</h2>
+        <h1 id="game-title" class="visually-hidden">Hold the Line game</h1>
 
         <aside class="control-panel">
           <div class="panel-heading">
             <div>
-              <span class="panel-label">Wallet</span>
+              <span class="panel-label">Virtual wallet</span>
               <strong class="wallet-value">
                 <span id="credits">1,000.00</span>
                 <small>CR</small>
@@ -107,14 +81,6 @@
               <dd>8.00×</dd>
             </div>
           </dl>
-
-          <div class="principle">
-            <span class="principle-icon" aria-hidden="true">≈</span>
-            <p>
-              The warning is noisy, not fake. Brighter pressure generally means
-              greater immediate risk.
-            </p>
-          </div>
         </aside>
 
         <div class="reactor-panel" id="reactor-panel">
@@ -182,68 +148,8 @@
             Pointer, touch, or <kbd>Space</kbd>
           </p>
         </div>
-
-        <aside class="history-panel">
-          <div class="panel-heading">
-            <div>
-              <span class="panel-label">Session</span>
-              <strong>Recent runs</strong>
-            </div>
-            <span id="round-count" class="round-count">0 rounds</span>
-          </div>
-          <ol id="history" class="history-list">
-            <li class="empty-history">
-              Your last five outcomes will appear here.
-            </li>
-          </ol>
-          <div class="session-note">
-            <span aria-hidden="true">◇</span>
-            <p>
-              This prototype stores only virtual credits in this browser.
-              Refreshing does not reroll an active round—it ends it.
-            </p>
-          </div>
-        </aside>
-      </section>
-
-      <section class="model-notes" aria-labelledby="model-title">
-        <div>
-          <p class="eyebrow">What is being tested</p>
-          <h2 id="model-title">Tension you can learn,<br>not certainty you can solve.</h2>
-        </div>
-        <div class="note-grid">
-          <article>
-            <span>01</span>
-            <h3>Pre-sampled fate</h3>
-            <p>
-              Each run receives one hidden bust budget. Fixed simulation ticks
-              consume it, keeping outcomes reproducible and frame-rate neutral.
-            </p>
-          </article>
-          <article>
-            <span>02</span>
-            <h3>Readable pressure</h3>
-            <p>
-              The visible signal contains error, but remains correlated with
-              the actual hazard. Attention should improve decisions over time.
-            </p>
-          </article>
-          <article>
-            <span>03</span>
-            <h3>Bounded stakes</h3>
-            <p>
-              Stakes use fictional credits, payout begins at 1×, and reaching
-              the 8× ceiling automatically banks rather than forcing a loss.
-            </p>
-          </article>
-        </div>
       </section>
     </main>
-
-    <footer>
-      <p>Hold the Line <span>·</span> A minimal stochastic-system prototype</p>
-      <p>Virtual credits only. Not gambling and not redeemable.</p>
-    </footer>
 
     <script type="module" src="script.js"></script>
   </body>
