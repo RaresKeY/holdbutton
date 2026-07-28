@@ -1,7 +1,7 @@
 {
   "name": "Hold the Line",
   "short_name": "Hold",
-  "description": "A one-button, virtual-credit stochastic-system experiment.",
+  "description": "A one-button push-your-luck reactor game with readable risk.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#090b10",

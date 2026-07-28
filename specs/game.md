@@ -2,7 +2,7 @@
 
 ## Status
 
-The playable static-site prototype is implemented by `index.html`,
+The complete static-site game is implemented by `index.html`,
 `styles.css`, `script.js`, `audio.js`, and `engine.js`. It uses no third-party
 runtime dependencies and no server.
 
@@ -75,7 +75,7 @@ Mₜ = 1 / Sₜ = exp(Hₜ)
 ```
 
 Consequently, the multiplier is fair with respect to the modeled conditional
-survival process before the 8× cap. This is an experiment design choice, not a
+survival process before the 8× cap. This is a game design choice, not a
 monetary return claim.
 
 Sampling `B` at the start is mathematically equivalent to independently
@@ -111,6 +111,8 @@ tick retains the declared base hazard.
 ## Technical and Safety Boundaries
 
 - The repository root is a build-free static-site source.
+- Firebase Hosting serves only the runtime assets from the repository root;
+  tests, specs, repository metadata, and deployment configuration are excluded.
 - No remote scripts, audio assets, analytics, network calls, or runtime
   dependencies are used.
 - Round entropy comes from the browser Web Crypto API. Seeded noise makes the
@@ -118,8 +120,8 @@ tick retains the declared base hazard.
 - Random state, hidden budget, wallet state, and outcomes are client-controlled
   and therefore unsuitable for real-money, redeemable-value, competitive, or
   adversarial deployment.
-- This prototype explores perceived tension and learnable stochastic signals;
-  it does not demonstrate that the interaction is fun without playtesting.
+- The game is designed around perceived tension and learnable stochastic
+  signals.
 
 ## Verification
 

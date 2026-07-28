@@ -2,9 +2,8 @@
 
 `specs/` is committed project memory for current intent and implementation. Read the relevant spec before changing its owning behavior, contract, boundary, source area, or verification flow, and update it with the implementation.
 
-Hold the Line is a build-free, one-button stochastic-game prototype using
-fictional browser-local credits. It is separate from the general-purpose
-`fun-proxy` model.
+Hold the Line is a complete, build-free, one-button stochastic game using
+fictional browser-local credits.
 
 ## Spec Map
 
