@@ -116,6 +116,10 @@ tick retains the declared base hazard.
 - The repository root is a build-free static-site source.
 - Firebase Hosting serves only the runtime assets from the repository root;
   tests, specs, repository metadata, and deployment configuration are excluded.
+- GitHub Pages deploys the same seven runtime assets from an explicit workflow
+  allowlist; pushes to `main` and manual dispatches trigger deployment.
+- The document includes a restrictive CSP fallback for static hosts such as
+  GitHub Pages that do not support the Firebase response-header configuration.
 - No remote scripts, audio assets, analytics, network calls, or runtime
   dependencies are used.
 - Round entropy comes from the browser Web Crypto API. Seeded noise makes the

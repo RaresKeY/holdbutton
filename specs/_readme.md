@@ -9,7 +9,7 @@ fictional browser-local credits.
 
 | Spec | Owning sources | Scope | Read when |
 |---|---|---|---|
-| [`game.md`](game.md) | `index.html`, `styles.css`, `script.js`, `audio.js`, `engine.js`, `tests/` | Game behavior, stochastic and payout equations, warning and audio integrity, static hosting, and verification | Changing mechanics, probabilities, wallet behavior, presentation, generated audio, input, or deployment |
+| [`game.md`](game.md) | `index.html`, `styles.css`, `script.js`, `audio.js`, `engine.js`, `firebase.json`, `.github/workflows/deploy-pages.yml`, `tests/` | Game behavior, stochastic and payout equations, warning and audio integrity, static hosting, and verification | Changing mechanics, probabilities, wallet behavior, presentation, generated audio, input, or deployment |
 
 ## Maintenance
 

@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class SiteParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__()
+        self.content_security_policy: str | None = None
         self.ids: set[str] = set()
         self.local_assets: set[str] = set()
         self.module_scripts: set[str] = set()
@@ -20,6 +21,12 @@ class SiteParser(HTMLParser):
         attrs: list[tuple[str, str | None]],
     ) -> None:
         attributes = dict(attrs)
+        if (
+            tag == "meta"
+            and attributes.get("http-equiv") == "Content-Security-Policy"
+        ):
+            self.content_security_policy = attributes.get("content")
+
         element_id = attributes.get("id")
         if element_id:
             self.ids.add(element_id)
@@ -69,6 +76,13 @@ class StaticSiteTests(unittest.TestCase):
 
     def test_browser_controller_is_an_es_module(self) -> None:
         self.assertIn("script.js", self.parser.module_scripts)
+
+    def test_document_has_static_host_security_policy(self) -> None:
+        policy = self.parser.content_security_policy
+        self.assertIsNotNone(policy)
+        self.assertIn("connect-src 'none'", policy)
+        self.assertIn("object-src 'none'", policy)
+        self.assertIn("script-src 'self'", policy)
 
     def test_manifest_is_valid_and_local(self) -> None:
         manifest = json.loads(
