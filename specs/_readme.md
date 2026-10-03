@@ -17,3 +17,5 @@ fictional browser-local credits.
 - Update this map when a spec is added, moved, split, or removed.
 - Keep plans, TODOs, work logs, and merge handoffs outside `specs/`.
 - Label planned behavior and open decisions; do not present them as implemented facts.
+
+[Local launch entrypoint](local-launch.md): root `play.sh`, runtime selection and on-click boundaries.
